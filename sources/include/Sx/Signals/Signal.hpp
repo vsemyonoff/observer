@@ -35,7 +35,7 @@ class Signal<R(Args...), C> final : protected SignalBase, public Observer {
         return connect<function>(std::addressof(instance));
     }
 
-    // Callable objects: functors, lambdas, std::function etc...
+    // Callable objects
     template <typename T>
     Connection* connect(T* instance) {
         static_assert(std::is_base_of<Observer, T>::value,
