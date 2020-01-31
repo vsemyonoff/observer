@@ -2,9 +2,9 @@
 #include <boost/signals2.hpp>
 #include <chrono>
 #include <iostream>
+#include <limits>
 
-class PerfTest {
- public:
+struct PerfTest {
   static PerfTest& instance() {
     static PerfTest p;
     return p;
@@ -13,11 +13,13 @@ class PerfTest {
   static void static_slot(size_t val) { instance().slot(val); }
 
   size_t slot(size_t val) const {
-    result += val;
+    if ((result > val) && ((val % 2) == 0))
+      result -= val;
+    else
+      result += val;
     return result;
   }
 
- private:
   mutable size_t result = 0;
 };
 
@@ -47,6 +49,8 @@ void RunPerfTest(size_t count = 1000000000) {
   high_resolution_clock::time_point p_end = high_resolution_clock::now();
   auto p_time = duration_cast<microseconds>(p_end - p_start).count();
 
+  std::cout << "**> Result (MAX)           : "
+            << std::numeric_limits<size_t>::max() << std::endl;
   std::cout << "**> Test calls count       : " << count << std::endl;
   std::cout << "**> Boost signal2 duration : " << b_time << std::endl;
   std::cout << "**> Own signal duration    : " << o_time << std::endl;
@@ -57,6 +61,8 @@ void RunPerfTest(size_t count = 1000000000) {
             << double(o_time) / double(p_time) << std::endl;
   std::cout << "**> Boost/Own              : "
             << double(b_time) / double(o_time) << std::endl;
+  std::cout << "**> Result                 : " << PerfTest::instance().result
+            << std::endl;
 }
 
 int main() {
