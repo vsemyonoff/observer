@@ -14,4 +14,4 @@ set (SOURCE_FILES "src/Sx/Signals/Connection.cpp"
                  "src/Sx/Signals/SignalBase.cpp"
                  )
 
-add_custom_library ("${PROJECT_NAME}" "${HEADER_FILES};${SOURCE_FILES}" "include")
+add_custom_library ("${PROJECT_NAME}" "${HEADER_FILES};${SOURCE_FILES}" "include" "" "src")
