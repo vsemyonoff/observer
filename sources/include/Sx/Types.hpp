@@ -2,8 +2,8 @@
 
 #include <cstdint>
 
-namespace Sx {
+namespace Sx
+{
+    using Pointer = uintptr_t;
 
-using Pointer = uintptr_t;
-
-}; // namespace Sx
+};  // namespace Sx

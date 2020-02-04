@@ -3,92 +3,93 @@
 #include <limits>
 #include <vector>
 
-namespace Sx::Signals {
+namespace Sx::Signals
+{
+    template <typename T, typename R = T>
+    struct CombinerBase
+    {
+        using ResultType = R;
 
-template <typename T, typename R = T>
-struct CombinerBase {
-    using ResultType = R;
-
-    virtual bool operator()(const T&) = 0;
-    virtual ResultType result() const  = 0;
-};
-
-template<>
-struct CombinerBase<void> {
-    using ResultType = void;
-    void result() const {}
-};
-
-template <typename T>
-class LastValue : public CombinerBase<T> {
-  public:
-    bool operator()(const T& value) override {
-        _result = value;
-        return true;
-    }
-
-    T result() const override {
-        return _result;
+        virtual bool       operator()(const T&) = 0;
+        virtual ResultType result() const       = 0;
     };
 
-  private:
-    T _result {};
-};
+    template <>
+    struct CombinerBase<void>
+    {
+        using ResultType = void;
+        void result() const {}
+    };
 
-template <>
-struct LastValue<void> : public CombinerBase<void> {
-};
-
-template <typename T>
-class MaxValue : public CombinerBase<T> {
-  public:
-    bool operator()(const T& value) override {
-        if (value > _result)
+    template <typename T>
+    class LastValue : public CombinerBase<T>
+    {
+    public:
+        bool operator()(const T& value) override
+        {
             _result = value;
-        return true;
-    }
+            return true;
+        }
 
-    T result() const override {
-        return _result;
+        T result() const override { return _result; };
+
+    private:
+        T _result {};
     };
 
-  private:
-    T _result = std::numeric_limits<T>::min();
-};
-
-template <typename T>
-class MinValue : public CombinerBase<T> {
-  public:
-    bool operator()(const T& value) override {
-        if (value < _result)
-            _result = value;
-        return true;
-    }
-
-    T result() const override {
-        return _result;
+    template <>
+    struct LastValue<void> : public CombinerBase<void>
+    {
     };
 
-  private:
-    T _result = std::numeric_limits<T>::max();
-};
+    template <typename T>
+    class MaxValue : public CombinerBase<T>
+    {
+    public:
+        bool operator()(const T& value) override
+        {
+            if (value > _result) _result = value;
+            return true;
+        }
 
-template <typename T>
-class AllValues : public CombinerBase<T, std::vector<T>> {
-  public:
-    using ResultType = std::vector<T>;
+        T result() const override { return _result; };
 
-    bool operator()(const T& value) override {
-        _result.push_back(value);
-        return true;
-    }
-
-    ResultType result() const override {
-        return _result;
+    private:
+        T _result = std::numeric_limits<T>::min();
     };
 
-  private:
-    ResultType _result{};
-};
+    template <typename T>
+    class MinValue : public CombinerBase<T>
+    {
+    public:
+        bool operator()(const T& value) override
+        {
+            if (value < _result) _result = value;
+            return true;
+        }
 
-}; // namespace Sx::Signals
+        T result() const override { return _result; };
+
+    private:
+        T _result = std::numeric_limits<T>::max();
+    };
+
+    template <typename T>
+    class AllValues : public CombinerBase<T, std::vector<T>>
+    {
+    public:
+        using ResultType = std::vector<T>;
+
+        bool operator()(const T& value) override
+        {
+            _result.push_back(value);
+            return true;
+        }
+
+        ResultType result() const override { return _result; };
+
+    private:
+        ResultType _result {};
+    };
+
+};  // namespace Sx::Signals

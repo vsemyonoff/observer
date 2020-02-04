@@ -3,15 +3,17 @@
 
 #include <Sx/Signals/Signal.hpp>
 
-struct Fixture : public Sx::Signals::Observer {
+struct Fixture : public Sx::Signals::Observer
+{
     int minValue() const { return -1; }
     int middleValue() const { return 0; }
-    int maxValue() const { return  1; }
+    int maxValue() const { return 1; }
 };
 
-BOOST_AUTO_TEST_CASE(LastCombiner) {
+BOOST_AUTO_TEST_CASE(LastCombiner)
+{
     Sx::Signals::Signal<int(), Sx::Signals::LastValue> signal;
-    Fixture f;
+    Fixture                                            f;
 
     signal.connect<&Fixture::minValue>(f);
     signal.connect<&Fixture::middleValue>(f);
@@ -21,9 +23,10 @@ BOOST_AUTO_TEST_CASE(LastCombiner) {
     BOOST_TEST(ret == 1);
 }
 
-BOOST_AUTO_TEST_CASE(MinCombiner) {
+BOOST_AUTO_TEST_CASE(MinCombiner)
+{
     Sx::Signals::Signal<int(), Sx::Signals::MinValue> signal;
-    Fixture f;
+    Fixture                                           f;
 
     signal.connect<&Fixture::minValue>(f);
     signal.connect<&Fixture::middleValue>(f);
@@ -33,9 +36,10 @@ BOOST_AUTO_TEST_CASE(MinCombiner) {
     BOOST_TEST(ret == -1);
 }
 
-BOOST_AUTO_TEST_CASE(MaxCombiner) {
+BOOST_AUTO_TEST_CASE(MaxCombiner)
+{
     Sx::Signals::Signal<int(), Sx::Signals::MaxValue> signal;
-    Fixture f;
+    Fixture                                           f;
 
     signal.connect<&Fixture::minValue>(f);
     signal.connect<&Fixture::middleValue>(f);
@@ -45,10 +49,11 @@ BOOST_AUTO_TEST_CASE(MaxCombiner) {
     BOOST_TEST(ret == 1);
 }
 
-BOOST_AUTO_TEST_CASE(AllCombiner) {
+BOOST_AUTO_TEST_CASE(AllCombiner)
+{
     Sx::Signals::Signal<int(), Sx::Signals::AllValues> signal;
-    std::vector<int> expected {-1, 0, 1};
-    Fixture f;
+    std::vector<int>                                   expected {-1, 0, 1};
+    Fixture                                            f;
 
     signal.connect<&Fixture::minValue>(f);
     signal.connect<&Fixture::middleValue>(f);

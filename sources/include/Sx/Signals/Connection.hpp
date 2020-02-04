@@ -2,22 +2,27 @@
 
 #include <Sx/Types.hpp>
 
-namespace Sx::Signals {
+namespace Sx::Signals
+{
+    class Observer;
+    class SignalBase;
 
-class Observer;
-class SignalBase;
+    struct Connection final
+    {
+        Connection() = delete;
+        Connection(Pointer, Observer*) noexcept;
 
-struct Connection final {
-    Connection() =                   delete;
-    Connection(Pointer, Observer*) noexcept;
-    ~Connection()                  noexcept;
-    void disconnect()              noexcept;
+        Connection(const Connection&) = default;
+        Connection& operator=(const Connection&) = delete;
 
-    Pointer     const function             ;
-    Observer*   const instance             ;
-    SignalBase*         signal =    nullptr;
-    bool              disabled =      false;
-    bool              detached =      false;
-};
+        ~Connection() noexcept;
+        void disconnect() noexcept;
 
-}; // namespace Sx::Signals
+        Pointer const   function;
+        Observer* const instance;
+        SignalBase*     signal   = nullptr;
+        bool            disabled = false;
+        bool            detached = false;
+    };
+
+};  // namespace Sx::Signals
