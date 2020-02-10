@@ -1,6 +1,6 @@
 project ("PerfTest")
 
-set (LIBS Sx::observer::${LIB_TYPE} Boost::boost)
+set (LIBS Sx::observer Boost::boost)
 add_application ("${PROJECT_NAME}" "${PROJECT_NAME}.cpp" "" "${LIBS}")
 
 if (INSTALL_EXAMPLES)
