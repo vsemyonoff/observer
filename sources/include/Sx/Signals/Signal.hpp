@@ -86,15 +86,22 @@ namespace Sx::Signals
                 Connection* connection = i++->get();
 
                 // Skip disabled connections
-                if (connection->disabled) { continue; }
+                if (connection->disabled)
+                {
+                    continue;
+                }
 
                 Callback callback = Callback::fromConnection(connection);
 
                 // Exec callback
-                if constexpr (std::is_same<void, ReturnType>::value) { callback(std::forward<Uref>(args)...); }
+                if constexpr (std::is_same<void, ReturnType>::value)
+                {
+                    callback(std::forward<Uref>(args)...);
+                }
                 else
                 {
-                    if (!combiner(callback(std::forward<Uref>(args)...))) break;
+                    if (!combiner(callback(std::forward<Uref>(args)...)))
+                        break;
                 }
             }
             emitting = false;

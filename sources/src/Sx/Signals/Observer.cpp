@@ -5,7 +5,8 @@ using namespace Sx::Signals;
 
 Observer::~Observer() noexcept
 {
-    for (const auto& c : connections) c->detached = true;
+    for (const auto& c : connections)
+        c->detached = true;
     connections.clear();
 }
 
@@ -30,5 +31,7 @@ void Observer::attach(Connection* c)
 
 void Observer::detach(Connection* c)
 {
-    connections.remove_if([c](Connection* co) { return c == co; });
+    connections.remove_if([c](Connection* co) {
+        return c == co;
+    });
 }

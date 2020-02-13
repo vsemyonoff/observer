@@ -31,7 +31,10 @@ namespace Sx::Signals
             return true;
         }
 
-        T result() const override { return _result; };
+        T result() const override
+        {
+            return _result;
+        };
 
     private:
         T _result {};
@@ -48,11 +51,15 @@ namespace Sx::Signals
     public:
         bool operator()(const T& value) override
         {
-            if (value > _result) _result = value;
+            if (value > _result)
+                _result = value;
             return true;
         }
 
-        T result() const override { return _result; };
+        T result() const override
+        {
+            return _result;
+        };
 
     private:
         T _result = std::numeric_limits<T>::min();
@@ -64,11 +71,15 @@ namespace Sx::Signals
     public:
         bool operator()(const T& value) override
         {
-            if (value < _result) _result = value;
+            if (value < _result)
+                _result = value;
             return true;
         }
 
-        T result() const override { return _result; };
+        T result() const override
+        {
+            return _result;
+        };
 
     private:
         T _result = std::numeric_limits<T>::max();
@@ -86,7 +97,10 @@ namespace Sx::Signals
             return true;
         }
 
-        ResultType result() const override { return _result; };
+        ResultType result() const override
+        {
+            return _result;
+        };
 
     private:
         ResultType _result {};

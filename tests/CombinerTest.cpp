@@ -5,9 +5,18 @@
 
 struct Fixture : public Sx::Signals::Observer
 {
-    int minValue() const { return -1; }
-    int middleValue() const { return 0; }
-    int maxValue() const { return 1; }
+    int minValue() const
+    {
+        return -1;
+    }
+    int middleValue() const
+    {
+        return 0;
+    }
+    int maxValue() const
+    {
+        return 1;
+    }
 };
 
 BOOST_AUTO_TEST_CASE(LastCombiner)

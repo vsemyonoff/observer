@@ -32,7 +32,9 @@ void SignalBase::disconnect(Connection* c)
     c->disconnect();
     if (!emitting)
     {
-        slots.remove_if([c](const ScopedConnection& co) { return c == co.get(); });
+        slots.remove_if([c](const ScopedConnection& co) {
+            return c == co.get();
+        });
     }
 }
 

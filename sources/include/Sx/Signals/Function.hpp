@@ -20,7 +20,9 @@ namespace Sx::Signals
         template <auto function, typename T>
         static inline Function bind(T* instance)
         {
-            return {[](Observer* instance, Args... args) { return (static_cast<T*>(instance)->*function)(args...); },
+            return {[](Observer* instance, Args... args) {
+                        return (static_cast<T*>(instance)->*function)(args...);
+                    },
                     instance};
         }
 
@@ -29,7 +31,9 @@ namespace Sx::Signals
         static inline Function bind(T* instance)
         {
             return {
-                [](Observer* instance, Args... args) { return static_cast<T*>(instance)->operator()(args...); },
+                [](Observer* instance, Args... args) {
+                    return static_cast<T*>(instance)->operator()(args...);
+                },
                 instance,
             };
         }
@@ -48,7 +52,10 @@ namespace Sx::Signals
             return {reinterpret_cast<ProxyCall>(c->function), c->instance};
         }
 
-        inline operator Connection() const { return {reinterpret_cast<Pointer>(function), instance}; }
+        inline operator Connection() const
+        {
+            return {reinterpret_cast<Pointer>(function), instance};
+        }
 
         template <typename... Uref>
         inline ReturnType operator()(Uref&&... args)
