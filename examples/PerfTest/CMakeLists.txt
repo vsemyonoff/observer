@@ -4,5 +4,5 @@ set (LIBS Sx::observer Boost::boost)
 add_application ("${PROJECT_NAME}" "${PROJECT_NAME}.cpp" "" "${LIBS}")
 
 if (INSTALL_EXAMPLES)
-    install (TARGETS "${PROJECT_NAME}" RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+  install (TARGETS "${PROJECT_NAME}" RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif ()
